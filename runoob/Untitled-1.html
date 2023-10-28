@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>编码与解码工具</title>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const encodeButton = document.getElementById("encodeButton");
+      const decodeButton = document.getElementById("decodeButton");
+      const inputText = document.getElementById("inputText");
+      const outputText = document.getElementById("outputText");
+
+      encodeButton.addEventListener("click", function() {
+        const text = inputText.value;
+        const encodedText = btoa(text);
+        outputText.value = encodedText;
+      });
+
+      decodeButton.addEventListener("click", function() {
+        const text = inputText.value;
+        const decodedText = atob(text);
+        outputText.value = decodedText;
+      });
+    });
+  </script>
+</head>
+<body>
+  <div>
+    <label for="inputText">输入文本：</label>
+    <textarea id="inputText" rows="4" cols="50"></textarea>
+  </div>
+  
+  <div>
+    <button id="encodeButton">编码</button>
+    <button id="decodeButton">解码</button>
+  </div>
+  
+  <div>
+    <label for="outputText">输出文本：</label>
+    <textarea id="outputText" rows="4" cols="50"></textarea>
+  </div>
+</body>
+</html>
